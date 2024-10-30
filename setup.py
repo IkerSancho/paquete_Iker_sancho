@@ -6,7 +6,7 @@ setup(
    author='Iker Sancho',
    author_email='isancho007@ehu.eus',
    packages=['paquete_Iker_Sancho'],
-   url='Indicar una URL para el paquete...',
+   url='https://github.com/IkerSancho/paquete_Iker_sancho.git',
    license='LICENSE.txt',
    description='This package includes some basic functions to work with datasets',
    long_description=open('README.txt').read(),
