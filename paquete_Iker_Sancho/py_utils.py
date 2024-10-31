@@ -3,7 +3,7 @@ import collections
 import numpy as np
 import pandas as pd
 import seaborn as sns
-from . import py_s4 as s4
+import py_s4 as s4
 import matplotlib.pyplot as plt
 
 
@@ -12,11 +12,6 @@ import matplotlib.pyplot as plt
 def es_numerica(variable):
     return all(isinstance(x, (int, float)) for x in variable)
 
-# Función para determinar si una columna es continua
-def es_continua(columna):
-    return all(isinstance(x, (int, float)) for x in columna)
-
-
 
 #===================================#
 #         DISCRETIZACIÓN            #
@@ -24,6 +19,7 @@ def es_continua(columna):
 
 # Discretización por Igual Anchura (Equal Width Binning):
 # Esta función divide el rango de los datos en intervalos de igual tamaño (anchura).
+# En caso de pasar un dataset completo actua solo sobre las variables numéricas.
 # Parámetros:
 #   - data: el dataset que será discretizado. Puede ser una variable única o un dataset tipo s4.
 #   - num_intervalos: número de intervalos en los cuales se divíde el rango de los valores.
@@ -70,12 +66,19 @@ def igual_anchura(dataset, num_intervalos):
         dataset_discretizado = []
         lista_intervalos = []
         
-        # Se aplica la discretización por cada columna
+        # Se aplica la discretización por cada columna numerica
         for columna in columnas:
-            datos_discretizados, intervalos = discretizar_unico(columna, num_intervalos)
-            dataset_discretizado.append(datos_discretizados)  
-            lista_intervalos.append(intervalos) 
-        
+            
+            if es_numerica(columna):
+                datos_discretizados, intervalos = discretizar_unico(columna, num_intervalos)
+                dataset_discretizado.append(datos_discretizados)  
+                lista_intervalos.append(intervalos) 
+                
+            else:
+                # Si la columna no es numérica saltarla
+                dataset_discretizado.append(columna)
+                
+            
         # Se revierte la transposición para devolver la estructura original
         # y se convierte en un objeto s4 
         dataset_discretizado = [list(elem) for elem in list(zip(*dataset_discretizado))]
@@ -96,7 +99,8 @@ def igual_anchura(dataset, num_intervalos):
 
 
 # Discretización por Igual Frecuencia (Equal Frequency Binning):
-# Esta función divide los datos en intervalos que contienen aproximadamente la misma cantidad de individuos.
+# Esta función divide los datos en intervalos que contienen aproximadamente la misma cantidad de 
+# individuos. En caso de pasar un dataset completo actua solo sobre las variables numéricas.
 # Parámetros:
 #   - data: el dataset a discretizar. Puede ser una variable única o un dataset s4.
 #   - num_intervalos: número de intervalos en los cuales se dividen los datos.
@@ -156,12 +160,15 @@ def igual_frecuencia(dataset, num_intervalos):
         lista_intervalos = []
         
         # Se aplica la discretización por cada columna
-        for valores in columnas:
-            
-            datos_discretizados, intervalos = discretizar_unico(valores, num_intervalos)
-            dataset_discretizado.append(datos_discretizados)
-            lista_intervalos.append(intervalos)
-        
+        for columna in columnas:
+            if es_numerica(columna):
+                datos_discretizados, intervalos = discretizar_unico(columna, num_intervalos)
+                dataset_discretizado.append(datos_discretizados)
+                lista_intervalos.append(intervalos)
+            else:
+                # Si la columna no es numérica saltarla
+                dataset_discretizado.append(columna)
+
         # Se reestructura el dataset discretizado y se convierte en un objeto s4
         dataset_discretizado = [list(elem) for elem in list(zip(*dataset_discretizado))]
 
@@ -494,7 +501,7 @@ def calcular_metricas(dataset, variable_clase=None, supervisado=False):
         if i == variable_clase:
             continue  
         
-        if es_continua(columna):
+        if es_numerica(columna):
             varianza = calcular_varianza(columna)
             auc = calcular_auc(clase, columna) if supervisado and len(set(clase)) == 2 else None
             resultados[f'Variable_{i}'] = {'Varianza': varianza, 'AUC': auc}

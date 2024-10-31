@@ -19,9 +19,12 @@ data_cat = [["A", "B", "C"],
             ["A", "B", "B"],
             ["A", "C", "B"],]
 
-data_num_cat = [[1.2, 2.2, 10 , "A", "B"], 
-                [1.1, 3.1, 3.1, "B", "B"],
-                [5.3, 3.8, 2  , "A", "C"]]
+data_num_cat = [[1.2, 2.2, 1.1, "A", "B"], 
+                [1.3, 4.2, 2.1, "B", "A"], 
+                [1.4, 3.2, 3.1, "B", "B"], 
+                [1.5, 2.2, 4.1, "C", "B"], 
+                [1.6, 1.2, 1.1, "C", "A"],
+                [5.3, 3.2, 2.1, "A", "C"]]
 
 data_supervs = [[1.2, 1.0, 4.2, "A", "1"],
                 [2.5, 0.1, 4.7, "A", "0"],
@@ -48,7 +51,7 @@ except (TypeError, ValueError, IndexError) as e:
     print("Error:", e)
 
 
-
+'''
 #========================#
 # Funciones de clase s4  #
 #========================#
@@ -67,14 +70,14 @@ dataset_num_cat.print_dataset_data()
 
 dataset_num_cat.eliminar_variable(5)
 dataset_num_cat.print_dataset_data()
-
 '''
+
 #========================#
 # Discretización - anch  #
 #========================#
 print("\n")
 num_intervalos = 3
-discretized_dataset, bins_dict = utils.igual_anchura(dataset_num, num_intervalos)
+discretized_dataset, bins_dict = utils.igual_anchura(dataset_num_cat, num_intervalos)
 discretized_dataset.print_dataset_data()
 print("Intervalos (igual anchura):", bins_dict)
 print("\n")
@@ -89,7 +92,7 @@ print("Intervalos (igual anchura):", bins_dict)
 #========================#
 print("\n")
 num_intervalos = 3
-discretized_dataset, bins_dict = utils.igual_frecuencia(dataset_num, num_intervalos)
+discretized_dataset, bins_dict = utils.igual_frecuencia(dataset_num_cat, num_intervalos)
 discretized_dataset.print_dataset_data()
 print("Intervalos (igual frecuencia):", bins_dict)
 print("\n")
@@ -98,7 +101,7 @@ print(discretized_dataset)
 print("Intervalos (igual frecuencia):", bins_dict)
 #========================#
 
-
+'''
 #========================#
 # Normalización          #
 #========================#
