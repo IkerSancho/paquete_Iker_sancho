@@ -3,7 +3,7 @@ import collections
 import numpy as np
 import pandas as pd
 import seaborn as sns
-import py_s4 as s4
+from . import py_s4 as s4
 import matplotlib.pyplot as plt
 
 

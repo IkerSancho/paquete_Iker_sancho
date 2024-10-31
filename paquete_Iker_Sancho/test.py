@@ -51,7 +51,7 @@ except (TypeError, ValueError, IndexError) as e:
     print("Error:", e)
 
 
-'''
+
 #========================#
 # Funciones de clase s4  #
 #========================#
@@ -70,7 +70,7 @@ dataset_num_cat.print_dataset_data()
 
 dataset_num_cat.eliminar_variable(5)
 dataset_num_cat.print_dataset_data()
-'''
+
 
 #========================#
 # Discretización - anch  #
@@ -101,7 +101,7 @@ print(discretized_dataset)
 print("Intervalos (igual frecuencia):", bins_dict)
 #========================#
 
-'''
+
 #========================#
 # Normalización          #
 #========================#
@@ -192,4 +192,3 @@ utils.filtrar_por_condicion(dataset_supervs, tipo="AUC", condicion="igual", umbr
 print("\n")
 dataset_supervs.print_dataset_data()
 #========================#
-'''
